@@ -10,7 +10,7 @@ Tomato is a full-stack web application designed for online food ordering, levera
 - **Sliding Mechanism**: The interface features a sliding mechanism for effortless browsing of food categories.
 - **Shop Section**: Additional items can be accessed by navigating through the shop section.
 - **User Authentication**: Users must log in to access the website, and new users can sign up for an account.
-- **Google Sign-In**: The interface incorporates user authentication, including Google Sign-In via Firebase.
+
 
 ### Admin Interface
 
