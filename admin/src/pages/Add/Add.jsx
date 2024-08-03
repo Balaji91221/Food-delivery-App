@@ -6,7 +6,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const Add = () => {
-  const url = "http://localhost:4000";
+  // eslint-disable-next-line no-undef
+  const url = process.env.REACT_APP_API_URL;
   const [image, setImage] = useState(false);
   const [data, setData] = useState({
     name: "",

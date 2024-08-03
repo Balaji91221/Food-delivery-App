@@ -6,7 +6,7 @@ export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
     const [cartItems, setCartItems] = useState({});
-    const url = "http://localhost:4000";
+    const url = import.meta.env.VITE_API_URL; // Use import.meta.env for Vite
     const [token, setToken] = useState("");
     const [food_list, setFoodList] = useState([]);
 
@@ -19,7 +19,7 @@ const StoreContextProvider = (props) => {
 
         if (token) {
             try {
-                await axios.post(url + "/api/cart/add", { itemId }, { headers: { Authorization: `Bearer ${token}` } });
+                await axios.post(`${url}/api/cart/add`, { itemId }, { headers: { Authorization: `Bearer ${token}` } });
             } catch (error) {
                 console.error("Error adding to cart:", error);
             }
@@ -31,7 +31,7 @@ const StoreContextProvider = (props) => {
 
         if (token) {
             try {
-                await axios.post(url + "/api/cart/remove", { itemId }, { headers: { Authorization: `Bearer ${token}` } });
+                await axios.post(`${url}/api/cart/remove`, { itemId }, { headers: { Authorization: `Bearer ${token}` } });
             } catch (error) {
                 console.error("Error removing from cart:", error);
             }
@@ -51,7 +51,7 @@ const StoreContextProvider = (props) => {
 
     const fetchFoodList = async () => {
         try {
-            const response = await axios.get(url + "/api/food/list");
+            const response = await axios.get(`${url}/api/food/list`);
             setFoodList(response.data.data);
         } catch (error) {
             console.error("Error fetching food list:", error);
@@ -60,7 +60,7 @@ const StoreContextProvider = (props) => {
 
     const loadCartData = async (token) => {
         try {
-            const response = await axios.post(url + "/api/cart/get", {}, { headers: { Authorization: `Bearer ${token}` } });
+            const response = await axios.post(`${url}/api/cart/get`, {}, { headers: { Authorization: `Bearer ${token}` } });
             setCartItems(response.data.cartData);
         } catch (error) {
             console.error("Error loading cart data:", error);

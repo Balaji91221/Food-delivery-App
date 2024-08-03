@@ -14,4 +14,5 @@ export const assets ={
     parcel_icon
 }
 
-export const url = 'http://localhost:4000'
+// eslint-disable-next-line no-undef
+export const url = process.env.REACT_APP_API_URL;

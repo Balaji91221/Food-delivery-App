@@ -10,7 +10,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
-  const url = "http://localhost:4000";
+  // eslint-disable-next-line no-undef
+  const url = process.env.REACT_APP_API_URL;
   return (
     <div>
       <ToastContainer />
