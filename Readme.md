@@ -2,6 +2,13 @@
 
 Tomato is a full-stack web application designed for online food ordering, leveraging the MERN stack to provide a seamless and intuitive user experience. The platform includes comprehensive features for both users and administrators, ensuring efficient food ordering and management processes.
 
+
+## Live Website Links
+
+- **Admin Interface**: [https://food-delivery-app-f9h5-a8gp4bo1g-balaji91221s-projects.vercel.app/](https://food-delivery-app-f9h5-a8gp4bo1g-balaji91221s-projects.vercel.app/)
+- **Frontend**: [https://food-delivery-app-coral-six.vercel.app/](https://food-delivery-app-coral-six.vercel.app/)
+
+
 ## Features of the Project
 
 ### User Interface
