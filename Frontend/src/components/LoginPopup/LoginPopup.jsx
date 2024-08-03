@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+// eslint-disable-next-line no-unused-vars
 import React, { useContext, useState } from 'react'
 import './LoginPopup.css'
 import {assets} from '../../assets/assets'
