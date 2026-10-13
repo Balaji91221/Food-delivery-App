@@ -1,58 +1,83 @@
-# Tomato: Online Food Ordering Application
+# Tomato — Food Delivery App
 
-Tomato is a full-stack web application designed for online food ordering, leveraging the MERN stack to provide a seamless and intuitive user experience. The platform includes comprehensive features for both users and administrators, ensuring efficient food ordering and management processes.
+**A food-ordering workflow, from browsing a menu to managing orders.**
 
+Tomato combines a React storefront, a separate React administration interface, and an Express API backed by MongoDB. It is a full-stack project for understanding how catalog, account, cart, and order features fit together.
 
-## Live Website Links
+[Setup](#run-locally) · [Architecture](#architecture) · [Source guide](#source-guide)
 
-- **Admin Interface**: [https://food-delivery-app-f9h5-a8gp4bo1g-balaji91221s-projects.vercel.app/](https://food-delivery-app-f9h5-a8gp4bo1g-balaji91221s-projects.vercel.app/)
-- **Frontend**: [https://food-delivery-app-coral-six.vercel.app/](https://food-delivery-app-coral-six.vercel.app/)
+## What it helps with
 
+Customers need one flow for choosing food, managing a cart, and checking their orders. Operators need a separate interface for maintaining the menu and order statuses. This project implements those related workflows in three applications.
 
-## Features of the Project
+- **Storefront:** food browsing, login/registration, cart, checkout, and order history.
+- **Administration:** add and remove food items, list the catalog, and update order statuses.
+- **API:** user accounts, cart persistence, image uploads, orders, and Stripe checkout-session creation.
 
-### User Interface
+## Existing demo links
 
-- **Browse Food Items**: Users can browse available food items, view details, and add items to their cart.
-- **Sliding Mechanism**: The interface features a sliding mechanism for effortless browsing of food categories.
-- **Shop Section**: Additional items can be accessed by navigating through the shop section.
-- **User Authentication**: Users must log in to access the website, and new users can sign up for an account.
+- [Customer interface](https://food-delivery-app-coral-six.vercel.app/)
+- [Administration interface](https://food-delivery-app-f9h5-a8gp4bo1g-balaji91221s-projects.vercel.app/)
 
+These are the project's existing deployment links; service availability is independent of this source repository.
 
-### Admin Interface
+## Run locally
 
-- **Admin Dashboard Access**: Access to the admin dashboard requires users to log in with existing credentials or sign up for an account.
-- **Manage Food Items**: Within the admin dashboard, users can manage food items by editing their details.
-  - **Edit Food Items**: Each food item includes essential information such as the item name, description, price, and image URL. Admins can edit these details for existing food items.
-  - **Upload New Food Items**: Admins can upload new food items.
-  - **Delete Existing Food Items**: Admins can delete existing food items.
-- **Logout Functionality**: Logout functionality is conveniently available within the dashboard interface.
+Use Node.js/npm, a MongoDB database, and your own Stripe test credentials. Download the repository source, then configure `Backend/.env`:
 
-## Tech Stack
+| Variable | Purpose |
+|---|---|
+| `MONGODB_URI` | MongoDB connection URI |
+| `JWT_SECRET` | Account token signing secret |
+| `STRIPE_SECRET_KEY` | Stripe key for checkout-session creation |
+| `FRONTEND_URL` | Customer UI origin used for checkout return URLs |
 
-### MongoDB
+Set `VITE_API_URL=http://localhost:4000` in each frontend's `.env`. Start each application in a separate terminal, beginning at the repository root:
 
-MongoDB serves as the database management system, storing various data related to food items available on the platform, such as names, descriptions, prices, and image URLs. MongoDB's flexibility allows for storing this data without a fixed schema, accommodating the diverse nature of food item information.
+```bash
+cd Backend
+npm install
+npm start
+```
 
-### React
+```bash
+cd Frontend
+npm install
+npm run dev
+```
 
-React is utilized for building the frontend of the food ordering website. It enables the creation of interactive user interfaces, allowing users to seamlessly browse through available food items, view item details, and interact with the platform's features. React's component-based architecture facilitates the development of reusable UI components, ensuring consistency and efficiency across the website.
+```bash
+cd admin
+npm install
+npm run dev
+```
 
-### Node.js
+The API uses port **4000**. Open the distinct URLs printed by the two Vite processes, and make `FRONTEND_URL` match the customer UI URL. Configure provider credentials locally; do not reuse somebody else's service configuration.
 
-Node.js powers the backend of the project, handling server-side logic and communication with the database. It enables the implementation of features such as user authentication, food item management, and API endpoints for frontend-backend interaction. Node.js's event-driven, non-blocking I/O model ensures the efficient handling of concurrent operations, making the website responsive and scalable.
+## Architecture
 
-### Express
+```mermaid
+flowchart LR
+  Customer[React storefront] --> API[Express API]
+  Admin[React admin interface] --> API
+  API --> DB[(MongoDB)]
+  API --> Images[Uploaded food images]
+  API --> Stripe[Stripe checkout sessions]
+  Stripe --> Return[Customer checkout return page]
+```
 
-Express complements Node.js by providing a minimalist web framework for building server-side applications and APIs. In this project, Express is used to define routes, middleware, and other backend functionalities. It simplifies the process of handling HTTP requests, processing data, and generating responses. Express's lightweight nature and extensive middleware ecosystem streamline backend development, accelerating the creation of a robust backend infrastructure for the food ordering platform.
+Routes dispatch to controllers; Mongoose models store users, food, and orders. The two UIs share the API while owning separate navigation and presentation.
 
-## Contribute to the Project
+## Source guide
 
-1. **Take a look at the existing [Issues](#) or [create a new issue](#)!**
-2. **[Fork the Repo](#)**, create a branch for any issue that you are working on, and commit your work.
-3. **Create a [Pull Request](#) (PR)**, which will be promptly reviewed and given suggestions for improvements by the community.
-4. **Add screenshots or screen captures to your Pull Request** to help us understand the effects of the changes that are included in your commits.
+| Directory | Role |
+|---|---|
+| [`Frontend/`](Frontend) | Customer application |
+| [`admin/`](admin) | Catalog and order-management UI |
+| [`Backend/routes/`](Backend/routes) | `/api/user`, `/api/food`, `/api/cart`, `/api/order` |
+| [`Backend/controllers/`](Backend/controllers) | Account, catalog, cart, and checkout logic |
+| [`Backend/models/`](Backend/models) | Database models |
 
----
+## Development scope
 
-We welcome all contributions and look forward to working together to improve Tomato!
+Use Stripe test mode when exploring the checkout flow. Before adapting this project for a live store, review authorization on administrative routes and the payment-verification implementation against the intended deployment.
